@@ -140,19 +140,5 @@ namespace DevLearning.API.Controllers
                 return StatusCode(500, new { error = ex.Message });
             }
         }
-
-        [HttpDelete("{id}")]
-        public async Task DeleteStudent(string id)
-        {
-            try
-            {
-                await _studentService.DeleteStudent(id);
-                NoContent();
-            }
-            catch (Exception ex)
-            {
-                StatusCode(500, new { error = ex.Message });
-            }
-        }
     }
 }

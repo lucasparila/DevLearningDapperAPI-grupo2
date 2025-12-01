@@ -35,8 +35,11 @@ namespace DevLearning.API.Services
             {
                 if (await _studentRepository.GetStudentById(studentId) is null)
                     throw new Exception("Estudante não encontrado");
-                if (await _courseRepository.GetOneCourseByIdAsync(courseId) is null)
+                var course = await _courseRepository.GetOneCourseByIdAsync(courseId);
+                if (course is null)
                     throw new Exception("Curso não encontrado");
+                if (course.Active == false)
+                    throw new Exception("Curso inativo, não pode ocorrer mátricula");
                 if(await _studentRepository.GetStudentCourse(studentId, courseId) is not null)
                     throw new Exception("Estudante já está matriculado nesse curso");
                 await _studentRepository.InsertStudentCourse(studentId, courseId, studentCourse);
@@ -126,17 +129,6 @@ namespace DevLearning.API.Services
                 if (await _courseRepository.GetOneCourseByIdAsync(courseId) is null)
                     throw new Exception("Curso não encontrado");
                 await _studentRepository.UpdateStudentCourse(studentId, courseId, studentCourse);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
-        public async Task DeleteStudent(string id)
-        {
-            try
-            {
-                await _studentRepository.DeleteStudent(Guid.Parse(id));
             }
             catch (Exception ex)
             {

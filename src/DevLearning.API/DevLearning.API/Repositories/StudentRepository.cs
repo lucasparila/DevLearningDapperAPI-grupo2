@@ -402,26 +402,6 @@ namespace DevLearning.API.Repositories
                 throw new Exception(ex.Message);
             }
         }
-        public async Task DeleteStudent(Guid id)
-        {
-            try
-            {
-                var sqlDeleteStudentCourse = @"DELETE FROM StudentCourse WHERE StudentId = @StudentId";
-                await _connection.ExecuteAsync(sqlDeleteStudentCourse, new { Id = id });
-
-                var sql = @"DELETE FROM Student WHERE Id = @Id";
-                await _connection.ExecuteAsync(sql, new { Id = id });
-            }
-            catch (SqlException ex)
-            {
-                throw new Exception(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
-
         public Task<int> GetCountStudentCourse(Guid courseId)
         {
             try

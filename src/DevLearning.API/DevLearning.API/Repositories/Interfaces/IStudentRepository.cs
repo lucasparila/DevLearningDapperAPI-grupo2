@@ -6,7 +6,6 @@ namespace DevLearning.API.Repositories.Interfaces
     public interface IStudentRepository
     {
         public Task CreateStudent(Student student);
-        public Task DeleteStudent(Guid id);
         public Task UpdateStudent(Student student, Guid id);
         public Task<List<StudentResponseDTO>> GetAllStudents();
         public Task<StudentResponseDTO> GetStudentByDocument(string document);
