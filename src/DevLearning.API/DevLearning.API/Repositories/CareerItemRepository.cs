@@ -66,7 +66,39 @@ namespace DevLearning.API.Repositories
             }
         }
 
+        public async Task<bool> GetCareerItemByTitleAsync(string title)
+        {
+            try
+            {
+                var sql = @"SELECT *
+                            FROM CareerItem
+                            WHERE Title = @Title";
+                var careerItem = await connection.QueryFirstOrDefaultAsync<CareerItemResponseDTO>(sql, new { Title = title });
+                return careerItem != null ? true : false;
+            }
+            catch (SqlException ex)
+            {
+                logger.LogError($"Erro ao buscar item da carrereira com titulo {title} : {ex.Message}");
+                throw;
+            }
+        }
+        public async Task<bool> ExistingCarrerItemwhitOrder(byte order)
+        {
+            try
+            {
+                var sql = @"SELECT *
+                            FROM CareerItem
+                            WHERE [Order] = @Order";
+                var careerItem = await connection.QueryFirstOrDefaultAsync<CareerItemResponseDTO>(sql, new { Order = order });
+                return careerItem != null ? true : false;
+            }
+            catch (SqlException ex)
+            {
+                logger.LogError($"Erro ao buscar item da carrereira com order {order} : {ex.Message}");
+                throw;
+            }
 
+        }
 
         public async Task<bool> UpdateCareerItemAsync(Guid CareerId, Guid CourseId, List<string> updates, DynamicParameters parameters)
         {

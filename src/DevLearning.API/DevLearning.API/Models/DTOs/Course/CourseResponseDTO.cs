@@ -1,10 +1,9 @@
-﻿using DevLearning.API.Enums;
+﻿using DevLearning.API.Models.Enums.Course;
 
 namespace DevLearning.API.Models.DTOs.Course
 {
     public class CourseResponseDTO
     {
-        //public Guid Id { get; init; }
         public string Tag { get; init; }
         public string Title { get; init; }
         public string Summary { get; init; }
@@ -17,9 +16,7 @@ namespace DevLearning.API.Models.DTOs.Course
         public bool Active { get; init; }
         public bool Free { get; init; }
         public bool Featured { get; init; }
-        //public Guid AuthorId { get; init; }
         public string AuthorName { get; init; }
-        //public Guid CategoryId { get; init; }
         public string CategoryName { get; init; }
         public string Tags { get; init; }
     }

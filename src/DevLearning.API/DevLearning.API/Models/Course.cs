@@ -1,6 +1,6 @@
 ﻿using System.Reflection.Metadata.Ecma335;
 using System.Text.Json.Serialization;
-using DevLearning.API.Enums;
+using DevLearning.API.Models.Enums.Course;
 
 namespace DevLearning.API.Models
 {

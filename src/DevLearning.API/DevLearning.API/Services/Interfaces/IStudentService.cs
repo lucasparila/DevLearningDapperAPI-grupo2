@@ -6,11 +6,13 @@ namespace DevLearning.API.Services.Interfaces
     public interface IStudentService
     {
         public Task CreateStudent(StudentRequestDTO student);
-        public Task DeleteStudent(string id);
-        public Task UpdateStudent(StudentRequestUpdateDTO student, string id);
+        public Task InsertStudentCourse(Guid studentId, Guid courseId, StudentRequestInsertCourseDTO studentCourse);
         public Task<List<StudentResponseDTO>> GetAllStudents();
-        public Task<Student> GetStudentById(string id);
-        public Task<Student> GetStudentByDocument(string document);
-        public Task<Student> GetStudentByEmail(string email);
+        public Task<StudentResponseDTO> GetStudentById(string id);
+        public Task<StudentResponseDTO> GetStudentByDocument(string document);
+        public Task<StudentResponseDTO> GetStudentByEmail(string email);
+        public Task UpdateStudentCourse(Guid studentId, Guid courseId, StudentCourseRequestUpdateDTO studentCourse);
+        public Task UpdateStudent(StudentRequestUpdateDTO student, string id);
+        public Task DeleteStudent(string id);
     }
 }

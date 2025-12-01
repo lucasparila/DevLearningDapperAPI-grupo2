@@ -33,7 +33,7 @@ namespace DevLearning.API.Controllers
             catch (Exception ex)
             {
                 logger.LogError(ex, $"Erro ao criar carreira: {ex.Message}");
-                return StatusCode(500, $"Erro interno: {ex.Message}");
+                return StatusCode(500, $"{ex.Message}");
             }
         }
 
@@ -48,7 +48,7 @@ namespace DevLearning.API.Controllers
             catch (Exception ex)
             {
                 logger.LogError(ex, $"Erro ao listar todas as carreiras: {ex.Message}");
-                return StatusCode(500, $"Erro interno: {ex.Message}");
+                return StatusCode(500, $"{ex.Message}");
             }
         }
 
@@ -67,7 +67,7 @@ namespace DevLearning.API.Controllers
             catch (Exception ex)
             {
                 logger.LogError(ex, $"Erro ao buscar carreira por ID: {ex.Message}");
-                return StatusCode(500, $"Erro interno: {ex.Message}");
+                return StatusCode(500, $"{ex.Message}");
             }
         }
 
@@ -87,7 +87,7 @@ namespace DevLearning.API.Controllers
             catch (Exception ex)
             {
                 logger.LogError(ex, $"Erro ao atualizar carreira por ID: {ex.Message}");
-                return StatusCode(500, $"Erro interno: {ex.Message}");
+                return StatusCode(500, $"{ex.Message}");
             }
         }
 
@@ -107,7 +107,7 @@ namespace DevLearning.API.Controllers
             catch (Exception ex)
             {
                 logger.LogError(ex, $"Erro ao buscar deletar carreira por ID: {ex.Message}");
-                return StatusCode(500, $"Erro interno: {ex.Message}");
+                return StatusCode(500, $"{ex.Message}");
             }
         }
     }

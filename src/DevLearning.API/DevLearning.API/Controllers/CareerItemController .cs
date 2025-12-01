@@ -29,6 +29,7 @@ namespace DevLearning.API.Controllers
         {
             try
             {
+
                 var retorno = await careerItemService.CreateItemCareerAsync(careerItemDTO);
                 if (retorno is false)
                 {
@@ -39,7 +40,7 @@ namespace DevLearning.API.Controllers
             catch (Exception ex)
             {
                 logger.LogError(ex, $"Erro ao criar item de carreira: {ex.Message}");
-                return StatusCode(500, $"Erro interno: {ex.Message}");
+                return StatusCode(500, $"{ex.Message}");
             }
         }
 
@@ -59,7 +60,7 @@ namespace DevLearning.API.Controllers
             catch (Exception ex)
             {
                 logger.LogError(ex, $"Erro ao atualizar item de carreira por ID: {ex.Message}");
-                return StatusCode(500, $"Erro interno: {ex.Message}");
+                return StatusCode(500, $"{ex.Message}");
             }
         }
 
@@ -79,7 +80,7 @@ namespace DevLearning.API.Controllers
             catch (Exception ex)
             {
                 logger.LogError(ex, $"Erro ao buscar deletar item de carreira por ID: {ex.Message}");
-                return StatusCode(500, $"Erro interno: {ex.Message}");
+                return StatusCode(500, $"{ex.Message}");
             }
         }
     }

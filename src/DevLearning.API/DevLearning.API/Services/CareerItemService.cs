@@ -25,8 +25,20 @@ namespace DevLearning.API.Services
 
             {
                 var retorno = await careerItemRepository.GetCareerItemByIdAsync(careerItemDTO.CareerId, careerItemDTO.CourseId);
-                if (retorno == true){                
-                    return false;
+                if (retorno == true){
+                    throw new Exception("Este curso já está cadastrado nesta carreira");
+                }
+
+                retorno = await careerItemRepository.GetCareerItemByTitleAsync(careerItemDTO.Title);
+                if (retorno == true)
+                {
+                    throw new Exception("Já existe uma carreira com esse título");
+                }
+
+                retorno = await careerItemRepository.ExistingCarrerItemwhitOrder(careerItemDTO.Order);
+                if (retorno == true)
+                {
+                    throw new Exception("Já existe uma carreira com essa ordem");
                 }
 
                 var careerItems= new CareerItem(
@@ -51,6 +63,11 @@ namespace DevLearning.API.Services
         {
             try
             {
+                var retorno = await careerItemRepository.GetCareerItemByIdAsync(careerId, courseId);
+                if (retorno == false)
+                {
+                    throw new Exception("Item de carreira não encontrado");
+                }
                 var result = await careerItemRepository.DeleteCareerItemAsync(careerId, courseId);
                 return result;
             }
@@ -65,6 +82,11 @@ namespace DevLearning.API.Services
         {
             try
             {
+                bool retorno = await careerItemRepository.GetCareerItemByIdAsync(careerId, courseId);
+                if (retorno == false)
+                {
+                    throw new Exception("Item de carreira não encontrado");
+                }
 
                 var updates = new List<string>();
                 var parameters = new DynamicParameters();
@@ -80,6 +102,11 @@ namespace DevLearning.API.Services
 
                 if (!string.IsNullOrEmpty(updateDTO.Title))
                 {
+                     retorno = await careerItemRepository.GetCareerItemByTitleAsync(updateDTO.Title);
+                    if (retorno == true)
+                    {
+                        throw new Exception("Já existe uma carreira com esse título");
+                    }
                     updates.Add("Title = @Title");
                     parameters.Add("Title", updateDTO.Title);
                 }

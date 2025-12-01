@@ -110,6 +110,24 @@ namespace DevLearning.API.Repositories
                
         }
 
+        public async Task<bool> GetCareerByTitleAsync(string Title)
+        {
+            try
+            {
+                var sql = @"SELECT 
+                          Id, Title, Summary, url, DurationInMinutes, Active, Featured, Tags
+                          FROM Career
+                          WHERE Title = @Title";
+                var career = await connection.QuerySingleOrDefaultAsync<CareerResponseDTO>(sql, new { Title = Title });
+                return career == null ? false: true;
+            }
+            catch (SqlException ex)
+            {
+                logger.LogError(ex, $"Erro ao buscar carreira com: {Title}");
+                throw;
+            }
+        }
+
         public async Task <bool> UpdateCareerAsync(Guid id, List<string> updates, DynamicParameters parameters)
         {
             try
@@ -133,11 +151,12 @@ namespace DevLearning.API.Repositories
         {
             try
             {
-                var sql = @"DELETE FROM Career WHERE Id = @Id";
-                var rows = await connection.ExecuteAsync(sql, new { Id = Id });
-                sql = @"DELETE FROM CareerItem WHERE CareerId = @CareerId";
+                var sql = @"DELETE FROM CareerItem WHERE CareerId = @CareerId";
                 Guid CareerId = Id;
                 await connection.ExecuteAsync(sql, new { CareerId = CareerId });
+                sql = @"DELETE FROM Career WHERE Id = @Id";
+                var rows = await connection.ExecuteAsync(sql, new { Id = Id });
+                
                 return rows > 0 ? true : false;
             }
             catch (SqlException ex)

@@ -5,6 +5,7 @@ using DevLearning.API.Models.DTOs.Carrer;
 using DevLearning.API.Repositories;
 using DevLearning.API.Services.Interfaces;
 using Microsoft.Data.SqlClient;
+using Microsoft.IdentityModel.Tokens;
 
 namespace DevLearning.API.Services
 {
@@ -23,6 +24,12 @@ namespace DevLearning.API.Services
             try
 
             {
+                bool retorno = await careerRepository.GetCareerByTitleAsync(careerDTO.Title);
+                if(retorno is true)
+                {
+                    throw new Exception("Já existe uma carreira com esse título.");
+                }
+
                 var career = new Career(
                    careerDTO.Title,
                    careerDTO.Summary,
@@ -54,6 +61,11 @@ namespace DevLearning.API.Services
             try { 
                 
                 var careers = await careerRepository.GetAllCareerWithCareerItem();
+                if (careers.Count == 0)
+                {
+                    throw new Exception("Ainda não há nenhuma carreira cadastrada");
+                }
+
                 return careers;
             }
             catch (Exception ex)
@@ -68,6 +80,10 @@ namespace DevLearning.API.Services
             try
             {
                 var career = await careerRepository.GetOneCareerWithCareerItem(careerId);
+                if (career == null)
+                {
+                    throw new Exception("Carreira não encontrada");
+                }
                 return career;
             }
             catch (Exception ex)
@@ -81,6 +97,12 @@ namespace DevLearning.API.Services
         {
             try
             {
+                var career = await careerRepository.GetOneCareerWithCareerItem(careerId);
+                if (career == null)
+                {
+                    throw new Exception("Carreira não encontrada");
+                }
+
                 var result = await careerRepository.DeleteCareerAsync(careerId);
                 return result;
             }
@@ -96,12 +118,25 @@ namespace DevLearning.API.Services
             try
             {
 
+                var existingCareer = await careerRepository.GetOneCareerWithCareerItem(id);
+                if(existingCareer == null)
+                {
+                    throw new Exception("Carreira não encontrada.");
+                }
+
+                
                 var updates = new List<string>();
                 var parameters = new DynamicParameters();
                 parameters.Add("Id", id);
 
                 if (!string.IsNullOrEmpty(updateDTO.Title))
                 {
+                    bool retorno = await careerRepository.GetCareerByTitleAsync(updateDTO.Title);
+                    if (retorno is true)
+                    {
+                        throw new Exception("Já existe uma carreira com esse título.");
+                    }
+
                     updates.Add("Title = @Title");
                     parameters.Add("Title", updateDTO.Title);
                     updates.Add("Url = @Url");

@@ -1,5 +1,6 @@
 ﻿using DevLearning.API.Models;
 using DevLearning.API.Models.DTOs.Course;
+using DevLearning.API.Models.Enums.Course;
 using DevLearning.API.Repositories;
 using DevLearning.API.Repositories.Interfaces;
 using DevLearning.API.Services.Interfaces;
@@ -84,21 +85,19 @@ namespace DevLearning.API.Services
 
         public async Task<CourseResponseDTO> GetOneCourseByTitleAsync(string title)
         {
-            try
-            {
-                return await _courseRepository.GetOneCourseByTitleAsync(title);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
+            return await _courseRepository.GetOneCourseByTitleAsync(title);
+        }
+
+        public async Task<CourseResponseDTO> GetOneCourseByIdAsync(string id)
+        {
+            return await _courseRepository.GetOneCourseByIdAsync(Guid.Parse(id));
         }
 
         public async Task UpdateCourseByTitleAsync(string title, CourseUpdateDTO update)
         {
             try
             {
-                await _courseRepository.UpdateCourseByTitleAsync(title, update.Active, update.Free, update.Featured, DateTime.UtcNow);
+                await _courseRepository.UpdateCourseAsync(title, update.Active, update.Free, update.Featured, DateTime.UtcNow);
             }
             catch (Exception ex)
             {

@@ -12,9 +12,11 @@ namespace DevLearning.API.Repositories
     {
         private readonly SqlConnection _connection;
 
-        public CategoryRepository(ConnectionDB connection)
+        private CourseRepository _courseRepository;
+        public CategoryRepository(ConnectionDB connection, CourseRepository courseRepository)
         {
             _connection = connection.GetConnection();
+            _courseRepository = courseRepository;
         }
 
         public async Task<bool> CategoryTitleExistsAsync(string title)

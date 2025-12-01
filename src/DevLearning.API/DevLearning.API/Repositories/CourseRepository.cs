@@ -105,7 +105,18 @@ namespace DevLearning.API.Repositories
             }
         }
 
-        public async Task UpdateCourseByTitleAsync(string title, bool active, bool free, bool featured, DateTime lastUpdateDate)
+        public async Task<CourseResponseDTO> GetOneCourseByIdAsync(Guid id)
+        {
+            var sql = @"SELECT c.Tag, c.Title, c.Summary, c.[Url], c.[Level], c.DurationInMinutes,
+                       c.CreateDate, c.LastUpdateDate, c.Active, c.Free, c.Featured, a.[Name] AS authorName, 
+                       ca.Title AS categoryName, c.Tags FROM Course c
+                       JOIN Author a ON a.Id = c.AuthorId
+                       JOIN Category ca ON ca.Id = c.CategoryId WHERE c.Id = @Id";
+
+            return (await _connection.QueryFirstOrDefaultAsync<CourseResponseDTO>(sql, new { Id = id }));
+        }
+
+        public async Task UpdateCourseAsync(string title, bool active, bool free, bool featured, DateTime lastUpdateDate)
         {
             try
             {
