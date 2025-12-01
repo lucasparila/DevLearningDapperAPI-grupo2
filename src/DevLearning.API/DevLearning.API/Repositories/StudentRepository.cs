@@ -428,7 +428,8 @@ namespace DevLearning.API.Repositories
             {
                 var sql = @"SELECT COUNT(*) FROM StudentCourse WHERE CourseId = @CourseId";
                 return _connection.ExecuteScalarAsync<int>(sql, new { CourseId = courseId });
-            } catch(SqlException ex)
+            }
+            catch (SqlException ex)
             {
                 throw new Exception(ex.Message);
             }
@@ -436,5 +437,6 @@ namespace DevLearning.API.Repositories
             {
                 throw new Exception(ex.Message);
             }
+        }
     }
 }
