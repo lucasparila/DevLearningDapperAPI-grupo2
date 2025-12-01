@@ -55,7 +55,7 @@ namespace DevLearning.API.Controllers
 
         //Criar autor
         [HttpPost]
-        public async Task<ActionResult> CreateAuthor(Author author)
+        public async Task<ActionResult> CreateAuthor(AuthorRequestDTO author)
         {
             try
             {

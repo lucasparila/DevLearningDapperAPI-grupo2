@@ -315,7 +315,7 @@ namespace DevLearning.API.Repositories
             try
             {
                 var sql = @"SELECT 
-                            s.Id AS Id, 
+                            s.Id AS StudentId, 
                             s.Name AS [Name], 
                             s.Email AS Email, 
                             s.Document AS Document, 
@@ -334,7 +334,7 @@ namespace DevLearning.API.Repositories
                             sc.LastUpdateDate AS LastUpdateDate
                         FROM StudentCourse sc
                         INNER JOIN Student s ON sc.StudentId = s.Id
-                        INNER JOIN Course c ON sc.CourseId = c.Id0
+                        INNER JOIN Course c ON sc.CourseId = c.Id
                         WHERE sc.StudentId = @StudentId
                           AND sc.CourseId = @CourseId;";
                 var studentCourse = await _connection.QueryAsync<

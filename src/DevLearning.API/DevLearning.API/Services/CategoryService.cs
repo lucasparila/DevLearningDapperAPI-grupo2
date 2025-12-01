@@ -131,6 +131,9 @@ namespace DevLearning.API.Services
             if (existing == null)
                 throw new KeyNotFoundException("Categoria não encontrada.");
 
+            if(await _categoryRepository.HasCourseAsync(id))
+                throw new ArgumentException("Não é possível deletar uma categoria que possui cursos associados.");
+
             await _categoryRepository.DeleteCategoryAsync(id);
         }
         public async Task<CategoryWithCoursesDTO> GetCategoryCoursesAsync(Guid categoryId)

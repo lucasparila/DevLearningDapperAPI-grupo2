@@ -43,27 +43,38 @@ namespace DevLearning.API.Repositories
 
         public async Task<CourseResponseDTO> DeleteCourseByTitleAsync(string title)
         {
-            try
-            {
-                var sql = @"DELETE FROM Course WHERE title = @title";
+            throw new NotImplementedException();
+        //    try
+        //    {
 
-                return (await _connection.QueryFirstOrDefaultAsync<CourseResponseDTO>(sql, new { title = title }));
-            }
-            catch (SqlException ex)
-            {
-                throw new Exception(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
+        //        var sqlGetId = "SELECT Id FROM Course WHERE Title = @title";
+        //        var courseId = await _connection.ExecuteScalarAsync<int?>(sqlGetId, new { title });
+
+        //        var sqlCareer = @"DELETE FROM CouseCareer WHERE CourseId = @IdCurso";
+        //        await _connection.ExecuteAsync(sqlCareer, new { CourseId = courseId });
+
+        //        var sqlStudent = @"DELETE FROM CouseCareer WHERE CourseId = @IdCurso";
+        //        await _connection.ExecuteAsync(sqlCareer, new { CourseId = courseId });
+
+        //        var sql = @"DELETE FROM Course WHERE title = @title";
+        //        return (await _connection.QueryFirstOrDefaultAsync<CourseResponseDTO>(sql, new { title = title}));
+
+        //    }
+        //    catch (SqlException ex)
+        //    {
+        //        throw new Exception(ex.Message);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw new Exception(ex.Message);
+        //    }
         }
 
         public async Task<List<CourseResponseDTO>> GetAllCoursesAsync(string category)
         {
             try
             {
-                var sql = @"SELECT c.Tag, c.Title, c.Summary, c.[Url], c.[Level], c.DurationInMinutes,
+                var sql = @"SELECT c.Id as CourseId, c.Tag, c.Title, c.Summary, c.[Url], c.[Level], c.DurationInMinutes,
                        c.CreateDate, c.LastUpdateDate, c.Active, c.Free, c.Featured, a.[Name] AS authorName, 
                        ca.Title AS categoryName, c.Tags FROM Course c
                        JOIN Author a ON a.Id = c.AuthorId
@@ -87,7 +98,7 @@ namespace DevLearning.API.Repositories
         {
             try
             {
-                var sql = @"SELECT c.Tag, c.Title, c.Summary, c.[Url], c.[Level], c.DurationInMinutes,
+                var sql = @"SELECT c.Id AS CourseId, c.Tag, c.Title, c.Summary, c.[Url], c.[Level], c.DurationInMinutes,
                        c.CreateDate, c.LastUpdateDate, c.Active, c.Free, c.Featured, a.[Name] AS authorName, 
                        ca.Title AS categoryName, c.Tags FROM Course c
                        JOIN Author a ON a.Id = c.AuthorId
@@ -116,13 +127,30 @@ namespace DevLearning.API.Repositories
             return (await _connection.QueryFirstOrDefaultAsync<CourseResponseDTO>(sql, new { Id = id }));
         }
 
-        public async Task UpdateCourseAsync(string title, bool active, bool free, bool featured, DateTime lastUpdateDate)
+        public async Task UpdateCourseByTitleAsync(string title, bool free, bool featured, DateTime lastUpdateDate)
         {
             try
             {
-                var sql = @"UPDATE Course SET Active = @active, Free = @free, Featured = @featured, LastUpdateDate = @lastUpdateDate WHERE Title = @Title";
+                var sql = @"UPDATE Course SET Free = @free, Featured = @featured, LastUpdateDate = @lastUpdateDate WHERE Title = @Title";
 
-                await _connection.ExecuteAsync(sql, new { active = active, Free = free, Featured = featured, LastUpdateDate = lastUpdateDate, Title = title });
+                await _connection.ExecuteAsync(sql, new { Free = free, Featured = featured, LastUpdateDate = lastUpdateDate, Title = title });
+            }
+            catch (SqlException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task UpdateActiveCourseByTitleAsync(string title, bool active, DateTime lastUpdateDate)
+        {
+            try
+            {
+                var sql = @"UPDATE Course SET Active = @active, LastUpdateDate = @lastUpdateDate WHERE Title = @Title";
+                await _connection.ExecuteAsync(sql, new { active = active, LastUpdateDate = lastUpdateDate, Title = title });
             }
             catch (SqlException ex)
             {

@@ -1,6 +1,5 @@
 ﻿using DevLearning.API.Models;
 using DevLearning.API.Models.DTOs.Course;
-using DevLearning.API.Models.Enums.Course;
 using DevLearning.API.Repositories;
 using DevLearning.API.Repositories.Interfaces;
 using DevLearning.API.Services.Interfaces;
@@ -13,12 +12,14 @@ namespace DevLearning.API.Services
         private CourseRepository _courseRepository;
         private ICategoryRepository _categoryRepository;
         private AuthorRepository _authorRepository;
+        private StudentRepository _studentRepository;
 
-        public CourseService(CourseRepository courseRepository, ICategoryRepository categoryRepository, AuthorRepository authorRepository)
+        public CourseService(CourseRepository courseRepository, ICategoryRepository categoryRepository, AuthorRepository authorRepository, StudentRepository studentRepository)
         {
             _courseRepository = courseRepository;
             _categoryRepository = categoryRepository;
             _authorRepository = authorRepository;
+            _studentRepository = studentRepository;
         }
 
         public async Task CreateCourseAsync(CourseRequestDTO course)
@@ -85,21 +86,58 @@ namespace DevLearning.API.Services
 
         public async Task<CourseResponseDTO> GetOneCourseByTitleAsync(string title)
         {
-            return await _courseRepository.GetOneCourseByTitleAsync(title);
-        }
-
-        public async Task<CourseResponseDTO> GetOneCourseByIdAsync(string id)
-        {
-            return await _courseRepository.GetOneCourseByIdAsync(Guid.Parse(id));
+            try
+            {
+                return await _courseRepository.GetOneCourseByTitleAsync(title);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
         public async Task UpdateCourseByTitleAsync(string title, CourseUpdateDTO update)
         {
             try
             {
-                await _courseRepository.UpdateCourseAsync(title, update.Active, update.Free, update.Featured, DateTime.UtcNow);
+                await _courseRepository.UpdateCourseByTitleAsync(title, update.Free, update.Featured, DateTime.UtcNow);
             }
             catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task UpdateActiveCourseByTitleAsync(string title, CourseActiveDTO update)
+        {
+            try
+            {
+                var courseStorage = await _courseRepository.GetOneCourseByTitleAsync(title);
+                if(courseStorage is null)
+                {
+                    throw new Exception("Você não modificar um curso inexistente!");
+                } 
+                    var verifyStudentCourse = await _studentRepository.GetCountStudentCourse(courseStorage.CourseId);
+
+                if (verifyStudentCourse > 0)
+                {
+                    throw new Exception("Você não pode inativar um curso com alunos nele!");
+                }
+
+                await _courseRepository.UpdateActiveCourseByTitleAsync(title, update.Active, DateTime.UtcNow);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task<CourseResponseDTO> GetOneCourseByIdAsync(string id)
+        {
+            try
+            {
+                return await _courseRepository.GetOneCourseByIdAsync(Guid.Parse(id));
+            }catch(Exception ex)
             {
                 throw new Exception(ex.Message);
             }

@@ -91,7 +91,7 @@ namespace DevLearning.API.Repositories
            
         }
 
-        public async Task<CareerResponseDTO?> GetCareerByIdAsync(Guid Id)
+        public async Task<CareerResponseDTO> GetCareerByIdAsync(Guid Id)
         {
             try
             {
@@ -99,7 +99,7 @@ namespace DevLearning.API.Repositories
                        Id, Title, Summary, url, DurationInMinutes, Active, Featured, Tags
                       FROM Career
                       WHERE Id = @Id";
-                var career = await connection.QuerySingleOrDefaultAsync<CareerResponseDTO>(sql, new { Id = Id });
+                var career = await connection.QueryFirstOrDefaultAsync<CareerResponseDTO>(sql, new { Id = Id });
                 return career;
             }
             catch (SqlException ex)

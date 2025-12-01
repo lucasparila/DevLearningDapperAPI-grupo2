@@ -8,7 +8,7 @@ namespace DevLearning.API.Services.Interfaces
     {
         Task<List<AuthorResponseDTO>> GetAllAuthorsAsync();
         Task<AuthorResponseDTO> GetAuthorByIdAsync(Guid id);
-        Task CreateAuthorAsync(Author author);
+        Task CreateAuthorAsync(AuthorRequestDTO author);
         Task UpdatePatchAuthorAsync(Guid id, UpdateAuthorParcialDTO dto);
         Task UpdatePutAuthorAsync(Guid id, UpdateAuthorFullDTO dto);
         Task UpdateAuthorTypeAsync(Guid id, AuthorType type);

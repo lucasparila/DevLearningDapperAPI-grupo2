@@ -14,6 +14,8 @@ namespace DevLearning.API.Repositories.Interfaces
 
         Task<CourseResponseDTO> DeleteCourseByTitleAsync(string title);
 
-        Task UpdateCourseAsync(string title, bool active, bool free, bool featured, DateTime lastUpdate);
+        Task UpdateCourseByTitleAsync(string title, bool free, bool featured, DateTime lastUpdateDate);
+
+        Task UpdateActiveCourseByTitleAsync(string title, bool active, DateTime lastUpdateDate);
     }
 }

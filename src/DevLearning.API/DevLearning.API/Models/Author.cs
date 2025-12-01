@@ -1,4 +1,5 @@
 ﻿using DevLearning.API.Models.Enums.Author;
+using System.Text.Json.Serialization;
 
 namespace DevLearning.API.Models
 {
@@ -14,6 +15,7 @@ namespace DevLearning.API.Models
         public AuthorType Type { get; private set; } //Author ativo ou inativo
         public List<Course> Courses { get; set; } = [];
 
+        [JsonConstructor]
         public Author(string name, string title, string image, string bio, string email)
         {
             Id = Guid.NewGuid();

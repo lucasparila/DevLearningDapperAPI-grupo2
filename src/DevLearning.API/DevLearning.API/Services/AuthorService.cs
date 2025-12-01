@@ -24,7 +24,7 @@ namespace DevLearning.API.Services
             return await _authorRepository.GetAuthorByIdAsync(id);
         }
 
-        public async Task CreateAuthorAsync(Author author)
+        public async Task CreateAuthorAsync(AuthorRequestDTO author)
         {
             try
             {

@@ -125,7 +125,28 @@ namespace DevLearning.API.Controllers
             {
                 return StatusCode(500, new { error = ex.Message });
             }
+        }
 
+        [HttpPut("Active/{title}")]
+        public async Task<IActionResult> UpdateActiveCourseByTitleAsync(string title, CourseActiveDTO update)
+        {
+            try
+            {
+                await _courseService.UpdateActiveCourseByTitleAsync(title, update);
+                return Ok();
+            }
+            catch (ArgumentException ex)
+            {
+                return StatusCode(400, new { error = ex.Message });
+            }
+            catch (InvalidOperationException ex)
+            {
+                return StatusCode(400, new { error = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { error = ex.Message });
+            }
         }
     }
 }

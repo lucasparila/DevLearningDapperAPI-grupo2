@@ -21,7 +21,7 @@ namespace DevLearning.API.Repositories
         {
             try
             {
-                var sql = "SELECT Name, Title, Image, Bio, Url, Email, Type FROM [Author]";
+                var sql = "SELECT Id as AuthorId, Name, Title, Image, Bio, Url, Email, Type FROM [Author]";
 
                 var authors = (await _connection.QueryAsync<AuthorResponseDTO>(sql)).ToList();
 
@@ -36,7 +36,7 @@ namespace DevLearning.API.Repositories
         {
             try
             {
-                var sql = "SELECT Name, Title, Image, Bio, Url, Email, Type FROM [Author] WHERE Id = @Id";
+                var sql = "SELECT Id as AuthorId, Name, Title, Image, Bio, Url, Email, Type FROM [Author] WHERE Id = @Id";
                 var author = await _connection.QueryFirstOrDefaultAsync<AuthorResponseDTO>(sql, new { Id = id });
                 return author;
             }
@@ -50,7 +50,7 @@ namespace DevLearning.API.Repositories
         {
             try
             {
-                var sql = "SELECT Name, Title, Image, Bio, Url, Email, Type FROM [Author] WHERE Email = @Email";
+                var sql = "SELECT Id as Author, Name, Title, Image, Bio, Url, Email, Type FROM [Author] WHERE Email = @Email";
                 var author = await _connection.QueryFirstOrDefaultAsync<AuthorResponseDTO>(sql, new { Email = email });
                 return author;
             }

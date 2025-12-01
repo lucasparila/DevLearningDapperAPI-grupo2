@@ -4,6 +4,7 @@ namespace DevLearning.API.Models.DTOs.Author
 {
     public class AuthorResponseDTO
     {
+        public Guid AuthorId { get; set; }
         public string Name { get; set; }
         public string Title { get; set; }
         public string Image { get; set; }

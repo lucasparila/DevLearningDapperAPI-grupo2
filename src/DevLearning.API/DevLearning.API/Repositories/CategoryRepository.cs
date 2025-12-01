@@ -122,11 +122,15 @@ namespace DevLearning.API.Repositories
                 category.Id
             });
         }
+
+        public async Task<bool> HasCourseAsync(Guid categoryId)
+        {
+            var sql = "SELECT COUNT(*) FROM Course WHERE CategoryId = @Id";
+            var count = await _connection.ExecuteScalarAsync<int>(sql, new { Id = categoryId });
+            return count > 0;
+        }
         public async Task DeleteCategoryAsync(Guid id)
         {
-            var deleteCoursesSql = "DELETE FROM Course WHERE CategoryId = @Id";
-            await _connection.ExecuteAsync(deleteCoursesSql, new { Id = id });
-
             var deleteCategorySql = "DELETE FROM Category WHERE Id = @Id";
             await _connection.ExecuteAsync(deleteCategorySql, new { Id = id });
         }

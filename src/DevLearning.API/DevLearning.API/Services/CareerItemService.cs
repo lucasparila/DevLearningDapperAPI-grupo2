@@ -12,8 +12,9 @@ namespace DevLearning.API.Services
     public class CareerItemService : ICareerItemService
     {
         public readonly CareerItemRepository careerItemRepository;
+        public readonly CareerRepository career;
         private readonly ILogger<CareerItemService> logger;
-        public CareerItemService(ILogger<CareerItemService> logger, CareerItemRepository careerItemRepository)
+        public CareerItemService(ILogger<CareerItemService> logger, CareerItemRepository careerItemRepository, CareerRepository career)
         {
             this.careerItemRepository = careerItemRepository;
             this.logger = logger;
@@ -41,7 +42,7 @@ namespace DevLearning.API.Services
                     throw new Exception("Já existe uma carreira com essa ordem");
                 }
 
-                var careerItems= new CareerItem(
+                var careerItems = new CareerItem(
                     careerItemDTO.CareerId,
                     careerItemDTO.CourseId,
                     careerItemDTO.Title,
